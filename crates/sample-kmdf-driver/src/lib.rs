@@ -17,16 +17,16 @@ extern crate wdk_panic;
 
 use alloc::{ffi::CString, slice, string::String};
 
+#[cfg(feature = "wdf")]
 use static_assertions::const_assert;
 use wdk::println;
 #[cfg(not(test))]
 use wdk_alloc::WDKAllocator;
+#[cfg(feature = "wdf")]
 use wdk_macros::call_unsafe_wdf_function_binding;
+use wdk_sys::{ntddk::DbgPrint, DRIVER_OBJECT, NTSTATUS, PCUNICODE_STRING, STATUS_SUCCESS};
+#[cfg(feature = "wdf")]
 use wdk_sys::{
-    ntddk::DbgPrint,
-    DRIVER_OBJECT,
-    NTSTATUS,
-    PCUNICODE_STRING,
     ULONG,
     WDFDEVICE,
     WDFDEVICE_INIT,
@@ -60,6 +60,7 @@ pub unsafe extern "system" fn driver_entry(
 
     driver.DriverUnload = Some(driver_exit);
 
+    #[cfg(feature = "wdf")]
     let mut driver_config = {
         // const_assert required since clippy::cast_possible_truncation must be silenced because of a false positive (since it currently doesn't handle checking compile-time constants): https://github.com/rust-lang/rust-clippy/issues/9613
         const WDF_DRIVER_CONFIG_SIZE: usize = core::mem::size_of::<WDF_DRIVER_CONFIG>();
@@ -78,10 +79,13 @@ pub unsafe extern "system" fn driver_entry(
         }
     };
 
+    #[cfg(feature = "wdf")]
     let driver_attributes = WDF_NO_OBJECT_ATTRIBUTES;
+    #[cfg(feature = "wdf")]
     let driver_handle_output = WDF_NO_HANDLE.cast::<*mut wdk_sys::WDFDRIVER__>();
 
-    let wdf_driver_create_ntstatus = unsafe {
+    #[cfg(feature = "wdf")]
+    let ntstatus = unsafe {
         call_unsafe_wdf_function_binding!(
             WdfDriverCreate,
             driver as wdk_sys::PDRIVER_OBJECT,
@@ -91,6 +95,8 @@ pub unsafe extern "system" fn driver_entry(
             driver_handle_output,
         )
     };
+    #[cfg(not(feature = "wdf"))]
+    let ntstatus = STATUS_SUCCESS;
 
     // Translate UTF16 string to rust string
     let registry_path = String::from_utf16_lossy(unsafe {
@@ -105,10 +111,10 @@ pub unsafe extern "system" fn driver_entry(
     // wdk::print.rs has the same features as the one in std (ex. format args
     // support).
     println!("KMDF Driver Entry Complete! Driver Registry Parameter Key: {registry_path}");
-
-    wdf_driver_create_ntstatus
+    ntstatus
 }
 
+#[cfg(feature = "wdf")]
 extern "C" fn evt_driver_device_add(
     _driver: WDFDRIVER,
     mut device_init: *mut WDFDEVICE_INIT,

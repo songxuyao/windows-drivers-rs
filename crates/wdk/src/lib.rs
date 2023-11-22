@@ -5,7 +5,7 @@
 //! built on top of the raw FFI bindings provided by [`wdk-sys`], and provides a
 //! safe, idiomatic rust interface to the WDK.
 #![no_std]
-#![cfg_attr(feature = "nightly", feature(hint_must_use))]
+// #![cfg_attr(feature = "nightly", feature(hint_must_use))]
 #![deny(warnings)]
 #![deny(missing_docs)]
 #![deny(clippy::all)]
@@ -29,6 +29,7 @@ mod print;
 #[cfg(feature = "alloc")]
 pub use print::_print;
 pub use wdk_sys::{NT_SUCCESS as nt_success, PAGED_CODE as paged_code};
+#[cfg(feature = "wdf")]
 pub mod wdf;
 
 /// Trigger a breakpoint in debugger via architecture-specific inline assembly

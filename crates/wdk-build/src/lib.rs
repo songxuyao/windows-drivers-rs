@@ -495,7 +495,9 @@ impl Config {
                 println!("cargo:rustc-link-lib=ntoskrnl");
                 println!("cargo:rustc-link-lib=hal");
                 println!("cargo:rustc-link-lib=wmilib");
+                #[cfg(feature = "wdf")]
                 println!("cargo:rustc-link-lib=WdfLdr");
+                #[cfg(feature = "wdf")]
                 println!("cargo:rustc-link-lib=WdfDriverEntry");
             }
             DriverConfig::UMDF(umdf_config) => {
@@ -518,6 +520,7 @@ impl Config {
                 }
 
                 if umdf_config.umdf_version_major >= 2 {
+                    #[cfg(feature = "wdf")]
                     println!("cargo:rustc-link-lib=WdfDriverStubUm");
                     println!("cargo:rustc-link-lib=ntdll");
                 }
@@ -574,7 +577,10 @@ impl Config {
 
                 // Linker arguments derived from WindowsDriver.KernelMode.KMDF.props in
                 // Ni(22H2) WDK
+                #[cfg(feature = "wdf")]
                 println!("cargo:rustc-cdylib-link-arg=/ENTRY:FxDriverEntry");
+                #[cfg(not(feature = "wdf"))]
+                println!("cargo:rustc-cdylib-link-arg=/ENTRY:DriverEntry");
             }
             DriverConfig::UMDF(_) => {
                 // Linker arguments derived from WindowsDriver.UserMode.props in Ni(22H2) WDK

@@ -1,4 +1,8 @@
 # windows-drivers-rs
+默认去除WDF框架, WDF驱动不能使用 StartService 接口加载, 如果想加入WDF, 如下操作
+```toml
+
+```
 
 
 This repo is a collection of Rust crates that enable developers to develop Windows Drivers in Rust. It is the intention to support both WDM and WDF driver development models. This repo contains the following crates:

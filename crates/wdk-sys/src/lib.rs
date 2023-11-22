@@ -29,11 +29,12 @@ pub use crate::{constants::*, types::*};
 
 pub mod macros;
 pub mod ntddk;
-pub mod wdf;
-
 #[cfg(feature = "test-stubs")]
 pub mod test_stubs;
+#[cfg(feature = "wdf")]
+pub mod wdf;
 
+#[cfg(feature = "wdf")]
 use lazy_static::lazy_static;
 
 // This is fine because we don't actually have any floating point instruction in
@@ -54,6 +55,7 @@ pub extern "system" fn __CxxFrameHandler3() -> i32 {
 
 // FIXME: dynamically find name of this struct based off of wdk-build settings
 // FIXME: replace lazy_static with std::Lazy once available: https://github.com/rust-lang/rust/issues/109736
+#[cfg(feature = "wdf")]
 lazy_static! {
     #[allow(missing_docs)]
     pub static ref WDF_FUNCTION_TABLE: &'static [WDFFUNC] = {

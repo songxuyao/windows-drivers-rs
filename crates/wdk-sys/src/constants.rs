@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation
 // License: MIT OR Apache-2.0
-
 #![allow(missing_docs)]
 
-use crate::types::{NTSTATUS, POOL_FLAGS, PVOID, PWDF_OBJECT_ATTRIBUTES};
+use crate::types::{NTSTATUS, POOL_FLAGS};
+#[cfg(feature = "wdf")]
+use crate::types::{PVOID, PWDF_OBJECT_ATTRIBUTES};
 
 #[allow(non_upper_case_globals)]
 #[allow(clippy::unreadable_literal)]
@@ -17,10 +18,15 @@ mod bindings {
 }
 pub use bindings::*;
 
+#[cfg(feature = "wdf")]
 pub const WDF_NO_OBJECT_ATTRIBUTES: PWDF_OBJECT_ATTRIBUTES = core::ptr::null_mut();
+#[cfg(feature = "wdf")]
 pub const WDF_NO_EVENT_CALLBACK: PVOID = core::ptr::null_mut();
+#[cfg(feature = "wdf")]
 pub const WDF_NO_HANDLE: PVOID = core::ptr::null_mut();
+#[cfg(feature = "wdf")]
 pub const WDF_NO_CONTEXT: PVOID = core::ptr::null_mut();
+#[cfg(feature = "wdf")]
 pub const WDF_NO_SEND_OPTIONS: PVOID = core::ptr::null_mut();
 
 // Macros with MSVC C Integer Constant Suffixes are not supported by bindgen, so they must be manually ported or imported from elsewhere: https://github.com/rust-lang/rust-bindgen/issues/2600

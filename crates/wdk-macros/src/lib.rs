@@ -3,7 +3,7 @@
 
 //! A collection of macros that help make it easier to interact with
 //! [`wdk-sys`]'s direct bindings to the Windows Driver Kit (WDK).
-#![cfg_attr(feature = "nightly", feature(hint_must_use))]
+//! #![cfg_attr(feature = "nightly", feature(hint_must_use))]
 #![deny(warnings)]
 #![deny(missing_docs)]
 #![deny(clippy::all)]
@@ -22,17 +22,18 @@
 #![deny(rustdoc::unescaped_backticks)]
 #![deny(rustdoc::redundant_explicit_links)]
 
+#[cfg(feature = "wdf")]
 use cfg_if::cfg_if;
+#[cfg(feature = "wdf")]
 use proc_macro::TokenStream;
+#[cfg(feature = "wdf")]
 use proc_macro2::TokenStream as TokenStream2;
+#[cfg(feature = "wdf")]
 use quote::{format_ident, quote};
+#[cfg(feature = "wdf")]
 use syn::{
     parse::{Parse, ParseStream},
-    parse2,
-    Error,
-    Expr,
-    Ident,
-    Token,
+    parse2, Error, Expr, Ident, Token,
 };
 
 /// A procedural macro that allows WDF functions to be called by name.
@@ -70,17 +71,20 @@ use syn::{
 ///     }
 /// }
 /// ```
+#[cfg(feature = "wdf")]
 #[proc_macro]
 pub fn call_unsafe_wdf_function_binding(input_tokens: TokenStream) -> TokenStream {
     call_unsafe_wdf_function_binding_impl(TokenStream2::from(input_tokens)).into()
 }
 
+#[cfg(feature = "wdf")]
 struct CallUnsafeWDFFunctionInput {
     function_pointer_type: Ident,
     function_table_index: Ident,
     function_arguments: syn::punctuated::Punctuated<Expr, Token![,]>,
 }
 
+#[cfg(feature = "wdf")]
 impl Parse for CallUnsafeWDFFunctionInput {
     fn parse(input: ParseStream) -> Result<Self, Error> {
         let c_function_name: String = input.parse::<Ident>()?.to_string();
@@ -98,6 +102,7 @@ impl Parse for CallUnsafeWDFFunctionInput {
     }
 }
 
+#[cfg(feature = "wdf")]
 fn call_unsafe_wdf_function_binding_impl(input_tokens: TokenStream2) -> TokenStream2 {
     let CallUnsafeWDFFunctionInput {
         function_pointer_type,
@@ -143,6 +148,7 @@ fn call_unsafe_wdf_function_binding_impl(input_tokens: TokenStream2) -> TokenStr
     }
 }
 
+#[cfg(feature = "wdf")]
 #[cfg(test)]
 mod tests {
     use std::path::{Path, PathBuf};
@@ -322,6 +328,7 @@ mod tests {
             };
         }
 
+        #[cfg(feature = "wdf")]
         generate_macro_expansion_and_compilation_tests!(
             wdf_driver_create,
             wdf_device_create,

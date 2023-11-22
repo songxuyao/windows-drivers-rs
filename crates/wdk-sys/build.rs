@@ -19,23 +19,31 @@ use wdk_build::{BuilderExt, Config, ConfigError, DriverConfig, KMDFConfig};
 // "2.33", ];
 
 fn generate_constants(out_path: &Path, config: Config) -> Result<(), ConfigError> {
-    Ok(
-        bindgen::Builder::wdk_default(vec!["src/ntddk-input.h", "src/wdf-input.h"], config)?
-            .with_codegen_config(CodegenConfig::VARS)
-            .generate()
-            .expect("Bindings should succeed to generate")
-            .write_to_file(out_path.join("constants.rs"))?,
-    )
+    #[cfg(feature = "wdf")]
+    let c_header_files = vec!["src/ntddk-input.h", "src/wdf-input.h"];
+    #[cfg(not(feature = "wdf"))]
+    let c_header_files = vec!["src/ntddk-input.h"];
+
+    bindgen::Builder::wdk_default(c_header_files, config)?
+        .with_codegen_config(CodegenConfig::VARS)
+        .generate()
+        .expect("Bindings should succeed to generate")
+        .write_to_file(out_path.join("constants.rs"))?;
+    Ok(())
 }
 
 fn generate_types(out_path: &Path, config: Config) -> Result<(), ConfigError> {
-    Ok(
-        bindgen::Builder::wdk_default(vec!["src/ntddk-input.h", "src/wdf-input.h"], config)?
-            .with_codegen_config(CodegenConfig::TYPES)
-            .generate()
-            .expect("Bindings should succeed to generate")
-            .write_to_file(out_path.join("types.rs"))?,
-    )
+    #[cfg(feature = "wdf")]
+    let c_header_files = vec!["src/ntddk-input.h", "src/wdf-input.h"];
+    #[cfg(not(feature = "wdf"))]
+    let c_header_files = vec!["src/ntddk-input.h"];
+
+    bindgen::Builder::wdk_default(c_header_files, config)?
+        .with_codegen_config(CodegenConfig::TYPES)
+        .generate()
+        .expect("Bindings should succeed to generate")
+        .write_to_file(out_path.join("types.rs"))?;
+    Ok(())
 }
 
 fn generate_ntddk(out_path: &Path, config: Config) -> Result<(), ConfigError> {
@@ -48,6 +56,7 @@ fn generate_ntddk(out_path: &Path, config: Config) -> Result<(), ConfigError> {
     )
 }
 
+#[cfg(feature = "wdf")]
 fn generate_wdf(out_path: &Path, config: Config) -> Result<(), ConfigError> {
     // As of NI WDK, this may generate an empty file due to no non-type and non-var
     // items in the wdf headers(i.e. functions are all inlined). This step is
@@ -91,6 +100,7 @@ fn main() -> Result<(), ConfigError> {
         generate_constants(&out_path, config.clone())?;
         generate_types(&out_path, config.clone())?;
         generate_ntddk(&out_path, config.clone())?;
+        #[cfg(feature = "wdf")]
         generate_wdf(&out_path, config.clone())?;
     }
 
