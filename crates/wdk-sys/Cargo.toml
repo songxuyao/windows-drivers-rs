@@ -31,4 +31,4 @@ rustversion = "1.0.14"
 default = []
 nightly = ["wdk-macros/nightly"]
 test-stubs = []
-wdf = []
+# wdf = []

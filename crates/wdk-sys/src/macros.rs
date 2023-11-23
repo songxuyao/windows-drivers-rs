@@ -5,4 +5,5 @@
 //! interacting with WDK apis which are inlined, and so are impossible to
 //! generate with [bindgen](https://docs.rs/bindgen/latest/bindgen/).
 
+#[cfg(feature = "wdf")]
 pub use wdk_macros::*;

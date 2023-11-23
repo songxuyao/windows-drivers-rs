@@ -52,7 +52,7 @@ script = '''
 "%WDKToolRoot%\%Platform%\infverif.exe" /v /w "%OUTPUT_DIR%\package\%CARGO_MAKE_CRATE_FS_NAME%.inf" /msft
 '''
 
-# 原始签名方法
+# 官方签名方法
 # [tasks.sign]
 # dependencies = ["rename-dll-to-sys", "inf2cat", "infverif"]
 # script = '''
@@ -66,6 +66,7 @@ script = '''
 # signtool sign /a /v /s PrivateCertStore /n DriverCertificate /fd SHA256 /t http://timestamp.digicert.com %OUTPUT_DIR%\package\%CARGO_MAKE_CRATE_FS_NAME%.sys
 # '''
 
+# 内核驱动签名方法, 最后输出sys文件
 [tasks.sign]
 dependencies = ["rename-dll-to-sys"]
 script = '''

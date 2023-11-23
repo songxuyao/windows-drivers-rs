@@ -4,6 +4,7 @@
 #![no_main]
 use wdk_sys::*;
 
+#[cfg(feature = "wdf")]
 #[export_name = "DriverEntry"]// WDF expects a symbol with the name DriverEntry
 pub extern "system" fn driver_entry(
     driver: &mut DRIVER_OBJECT,

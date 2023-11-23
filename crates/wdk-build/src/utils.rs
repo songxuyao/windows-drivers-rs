@@ -11,7 +11,13 @@ use thiserror::Error;
 use windows::{
     core::{s, PCSTR},
     Win32::System::Registry::{
-        RegCloseKey, RegGetValueA, RegOpenKeyExA, HKEY, HKEY_LOCAL_MACHINE, KEY_READ, RRF_RT_REG_SZ,
+        RegCloseKey,
+        RegGetValueA,
+        RegOpenKeyExA,
+        HKEY,
+        HKEY_LOCAL_MACHINE,
+        KEY_READ,
+        RRF_RT_REG_SZ,
     },
 };
 

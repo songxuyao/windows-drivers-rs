@@ -1,5 +1,15 @@
 [workspace]
-members = ["crates/*"]
+# members = ["crates/*"]
+# 可以控制编译顺序
+members = [
+    "crates/wdk-alloc",
+    "crates/wdk-panic",
+    "crates/wdk-build",
+    "crates/wdk-macros",
+    "crates/wdk-sys",
+    "crates/wdk",
+    "crates/sample-kmdf-driver",
+]
 resolver = "2"
 
 [profile.dev]
@@ -17,12 +27,12 @@ readme = "README.md"
 license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
-wdk = { path = "crates/wdk", version = "0.1.1" }
 wdk-alloc = { path = "crates/wdk-alloc", version = "0.1.1" }
 wdk-build = { path = "crates/wdk-build", version = "0.1.1" }
 wdk-macros = { path = "crates/wdk-macros", version = "0.1.1" }
 wdk-panic = { path = "crates/wdk-panic", version = "0.1.1" }
 wdk-sys = { path = "crates/wdk-sys", version = "0.1.1" }
+wdk = { path = "crates/wdk", version = "0.1.1" }
 bindgen = "0.68.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

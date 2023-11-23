@@ -3,7 +3,7 @@
 
 //! A collection of macros that help make it easier to interact with
 //! [`wdk-sys`]'s direct bindings to the Windows Driver Kit (WDK).
-//! #![cfg_attr(feature = "nightly", feature(hint_must_use))]
+#![cfg_attr(feature = "nightly", feature(hint_must_use))]
 #![deny(warnings)]
 #![deny(missing_docs)]
 #![deny(clippy::all)]
@@ -33,7 +33,11 @@ use quote::{format_ident, quote};
 #[cfg(feature = "wdf")]
 use syn::{
     parse::{Parse, ParseStream},
-    parse2, Error, Expr, Ident, Token,
+    parse2,
+    Error,
+    Expr,
+    Ident,
+    Token,
 };
 
 /// A procedural macro that allows WDF functions to be called by name.
@@ -148,8 +152,8 @@ fn call_unsafe_wdf_function_binding_impl(input_tokens: TokenStream2) -> TokenStr
     }
 }
 
-#[cfg(feature = "wdf")]
 #[cfg(test)]
+#[cfg(feature = "wdf")]
 mod tests {
     use std::path::{Path, PathBuf};
 
@@ -328,7 +332,6 @@ mod tests {
             };
         }
 
-        #[cfg(feature = "wdf")]
         generate_macro_expansion_and_compilation_tests!(
             wdf_driver_create,
             wdf_device_create,
