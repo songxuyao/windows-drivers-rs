@@ -5118,18 +5118,6 @@ pub const WNNC_NET_9P: u32 = 4718592;
 pub const WNNC_CRED_MANAGER: u32 = 4294901760;
 pub const WNNC_NET_LANMAN: u32 = 131072;
 pub const VOLSNAPCONTROLTYPE: u32 = 83;
-pub const WDF_DRIVER_GLOBALS_NAME_LEN: u32 = 32;
-pub const WDF_FIRST_VERSION_SUPPORTING_CLIENT_VERSION_HIGHER_THAN_FRAMEWORK: u32 = 25;
-pub const WDF_ALWAYS_AVAILABLE_FUNCTION_COUNT: u32 = 453;
-pub const WDF_TYPE_INIT_BASE_SECTION_NAME: &[u8; 14] = b".kmdftypeinit\0";
-pub const WDF_TYPE_INIT_SECTION_NAME: &[u8; 16] = b".kmdftypeinit$b\0";
-pub const WDF_TYPE_DEFAULT_SECTION_NAME: &[u8; 6] = b".data\0";
-pub const WDF_S0_IDLE_ENABLED_VALUE_NAME: &[u8; 19] = b"IdleInWorkingState\0";
-pub const WDF_SX_WAKE_ENABLED_VALUE_NAME: &[u8; 19] = b"WakeFromSleepState\0";
-pub const WDF_S0_IDLE_DEFAULT_VALUE_NAME: &[u8; 29] = b"WdfDefaultIdleInWorkingState\0";
-pub const WDF_SX_WAKE_DEFAULT_VALUE_NAME: &[u8; 29] = b"WdfDefaultWakeFromSleepState\0";
-pub const WDF_REGKEY_DEVICE_SUBKEY: u32 = 0;
-pub const WDF_REGKEY_DRIVER_SUBKEY: u32 = 0;
 extern "C" {
     pub static mut KeNumberProcessors: CCHAR;
 }
@@ -6132,50 +6120,4 @@ extern "C" {
 }
 extern "C" {
     pub static mut CcFastMdlReadWait: ULONG;
-}
-extern "C" {
-    pub static mut WdfFunctions_01033: *const WDFFUNC;
-}
-extern "C" {
-    pub static mut WdfDriverMiniportUnloadOverride: WDFFUNC;
-}
-extern "C" {
-    pub static mut WdfDriverGlobals: PWDF_DRIVER_GLOBALS;
-}
-extern "C" {
-    pub static mut WdfClientVersionHigherThanFramework: BOOLEAN;
-}
-extern "C" {
-    pub static mut WdfFunctionCount: ULONG;
-}
-extern "C" {
-    pub static mut WdfStructureCount: ULONG;
-}
-extern "C" {
-    pub static mut WdfStructures: WDF_STRUCT_INFO;
-}
-pub const WdfMinimumVersionRequired: ULONG = 33;
-extern "C" {
-    pub static SDDL_DEVOBJ_KERNEL_ONLY: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_ALL: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_RX: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_RWX_WORLD_R: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_RWX_WORLD_R_RES_R: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_RWX_WORLD_RW_RES_R: UNICODE_STRING;
-}
-extern "C" {
-    pub static SDDL_DEVOBJ_SYS_ALL_ADM_RWX_WORLD_RWX_RES_RWX: UNICODE_STRING;
 }

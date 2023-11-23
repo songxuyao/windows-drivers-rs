@@ -1,3 +1,4 @@
 target/
 DriverCertificate.cer
 .cargo-make-loadscripts/
+Cargo.lock
